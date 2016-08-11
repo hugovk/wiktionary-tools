@@ -1,0 +1,24 @@
+legend {
+ font-size: 20px;
+ }
+label.field {
+  float: left;
+  text-align: right;
+  width: 80px;
+  font-weight: bold;
+}
+xinput {
+  width: 100px;
+}
+xform p {
+  float: left;
+  clear: both;
+  padding: 5px;
+}
+.error,
+#error {
+  color: red;
+}
+#quotation {
+  font-family: "Courier New", "Courier", "Arial";
+}

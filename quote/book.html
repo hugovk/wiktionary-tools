@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wiktionary book quotation builder</title>
+<!--
+https://en.wiktionary.org/wiki/Category:Citation_templates
+https://en.wiktionary.org/wiki/Template:quote-book
+ -->
+<link rel="stylesheet" href="wiktionary-quote.css?v=1.0">
+</head>
+<body>
+
+<form id="frm1">
+  <fieldset>
+    <legend>Wiktionary book quotation builder</legend>
+  <p><label class="field" for="author">author: </label><input type="text" name="author"> The name of the author of the book quoted. Use either author, or last and first (for the first name, and middle names or initials), not both.
+  <p><label class="field" for="last">last: </label><input type="text" name="last"> The name of the author of the book post quoted. Use either author, or last and first (for the first name, and middle names or initials), not both.
+  <p><label class="field" for="first">first: </label><input type="text" name="first"> The name of the author of the book post quoted. Use either author, or last and first (for the first name, and middle names or initials), not both.
+  <p><label class="field" for="coauthors">coauthors: </label><input type="text" name="coauthors"> The names of the coauthor(s) of the book. Separate multiple names with semicolons.
+  <p><label class="field" for="editor">editor: </label><input type="text" name="editor"> The name of the editor of the book.
+  <p><label class="field" for="editors">editors: </label><input type="text" name="editors"> The names of the editors of the book. Separate multiple names with semicolons.
+  <p><label class="field" for="chapter">chapter: </label><input type="text" name="chapter"> The chapter of the book quoted. You can either specify a chapter number (for example, "chapter=7") or a chapter title (for example, "chapter=Introduction").
+  <p><label class="field" for="title">title: </label><input type="text" name="title"> <b>Mandatory</b>: the title of the book.
+  <p><label class="field" for="url">url: </label><input type="text" name="url"> The URL or web address of an external website containing the full text of the book. <i>Do not link to any website that has content in breach of copyright.</i>
+  <p><label class="field" for="archiveurl">archiveurl: </label><input type="text" name="archiveurl"> Use archiveurl and archivedate (which must be used together) to indicate the URL or web address of a webpage on a website such as the Internet Archive or Perma.cc at which the webpage has been archived, and the date on which the webpage was archived.
+  <p><label class="field" for="archivedate">archivedate: </label><input type="text" name="archivedate"> "
+  <p><label class="field" for="accessdate">accessdate: </label><input type="text" name="accessdate"> Alternatively, if the webpage cannot be archived, use accessdate to indicate when its URL was accessed. (If the webpage has been archived, it is unnecessary to use this parameter.)
+  <p><label class="field" for="edition">edition: </label><input type="text" name="edition"> The edition of the book quoted, for example, "2nd" or "3rd corr. and rev.". If quoting from the first edition of the book, it is usually not necessary to specify this fact.
+  <p><label class="field" for="location">location: </label><input type="text" name="location">The location where the book was published. If more than one location is stated, separate the locations with semicolons, like this: "London; New York, N.Y.".
+  <p><label class="field" for="publisher">publisher: </label><input type="text" name="publisher">The name of one or more publishers of the book. If more than one publisher is stated, separate the names with semicolons.
+  <p><label class="field" for="date">date: </label><input type="text" name="date"> The date that the book was published. Use either date, or year (and month), not both.
+  <p><label class="field" for="year">year: </label><input type="text" name="year"> The year (and month), that the book was published. Use either date, or year (and month), not both.
+  <p><label class="field" for="month">month: </label><input type="text" name="month"> The year (and month), that the book was published. Use either date, or year (and month), not both.
+  <p><label class="field" for="volume">volume: </label><input type="text" name="volume"> The volume number of the book. TODO: Use volume_plain if you wish to suppress the word volume appearing in front of the volume number and identify the volume in some other way (for example, "book II").
+  <p><label class="field" for="page">page: </label><input type="text" name="page"> The page number of the book.
+  <p><label class="field" for="passage">passage: </label><input type="text" name="passage"> The portion of the book post being quoted. The defined term will be highlighted in bold in the passage quoted like this: "'''cyberspace'''".
+  <p><label class="field" for="term">term: </label><input type="text" name="term"> The defined term to be highlighed in the passage.
+  </fieldset>
+</form>
+
+<p>Click "Build it" to display the quotation, then copy it, click the link and edit that page.</p>
+
+<button onclick="buildQuote('quote-web')">Build it</button>
+
+<p id="error"></p>
+<p id="quotation"></p>
+<p id="linky"></p>
+
+<script src="jquery-1.11.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="wiktionary-quote.js"></script>
+<script>
+$(document).ready(function() {
+
+  // Prefill archivedate and accessdate as today
+  var date = new Date();
+  var day = date.getDate();
+  if(day<10){ day="0"+day;}
+  var month = date.getMonth()+1;
+  if(month<10){ month="0"+month;}
+  var today = date.getFullYear()+"-"+month+"-"+day;
+  $("input[name=archivedate]").val(today);
+  $("input[name=accessdate]").val(today);
+
+  $('#frm1').validate({
+    rules: {
+      author: {
+        AND_OR_with: [
+          $("input[name=author]"),
+          $("input[name=last]"),
+          $("input[name=first]"),
+          'Use either author, or last and first (for the first name, and middle names or initials), not both.'
+        ]
+      },
+      last: {
+        AND_OR_with: [
+          $("input[name=author]"),
+          $("input[name=last]"),
+          $("input[name=first]"),
+          'Use either author, or last and first (for the first name, and middle names or initials), not both.'
+        ]
+      },
+      first: {
+        AND_OR_with: [
+          $("input[name=author]"),
+          $("input[name=last]"),
+          $("input[name=first]"),
+          'Use either author, or last and first (for the first name, and middle names or initials), not both.'
+        ]
+      },
+      url: {
+        url: true
+      },
+      title: {
+        required: true
+      },
+      accessdate: {
+        AND_OR_with: [
+          $("input[name=accessdate]"),
+          $("input[name=archiveurl]"),
+          $("input[name=archivedate]"),
+          'Use archiveurl and archivedate, or if it cannot be archived use accessdate.'
+        ]
+      },
+      archiveurl: {
+        AND_OR_with: [
+          $("input[name=accessdate]"),
+          $("input[name=archiveurl]"),
+          $("input[name=archivedate]"),
+          'Use archiveurl and archivedate, or if it cannot be archived use accessdate.'
+        ]
+      },
+      archivedate: {
+        AND_OR_with: [
+          $("input[name=accessdate]"),
+          $("input[name=archiveurl]"),
+          $("input[name=archivedate]"),
+          'Use archiveurl and archivedate, or if it cannot be archived use accessdate.'
+        ]
+      },
+      date: {
+        date: true,
+        AND_with: [
+          $("input[name=year]"),
+         'Use either date, or year, not both.'
+        ]
+      },
+      year: {
+        digits: true,
+        minlength: 4,
+        maxlength: 4,
+        AND_with: [
+          $("input[name=date]"),
+          'Use either date, or year, not both.'
+        ]
+      }
+    }
+  });
+
+  $('#frm1').keyup(function() {
+    buildQuote('quote-book');
+  });
+});
+</script>
+
+</body>
+</html>

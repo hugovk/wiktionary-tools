@@ -70,7 +70,7 @@ function buildQuote(type) {
 
   });
 
-  text += "}}"
+  text += "<br>}}"
   $("#error").html("");
   $("#quotation").html(text);
 

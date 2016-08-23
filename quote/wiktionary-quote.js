@@ -56,14 +56,14 @@ function buildQuote(type) {
       var term = $("input[name=term]").val().trim();
       if (term.length) {
         var passage = input.val().trim().replace(term, "'''" + term + "'''");
-        text += "|";
+        text += "<br>|";
         text += input.attr('name') + "=";
         text += passage;
         return true; // go to next one
       }
     }
     if (input.val().length) {
-      text += "|";
+      text += "<br>|";
       text += input.attr('name') + "=";
       text += input.val().trim();
     }

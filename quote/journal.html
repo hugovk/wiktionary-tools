@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wiktionary journal, magazine or newspaper quotation builder</title>
+<!--
+https://en.wiktionary.org/wiki/Category:Citation_templates
+https://en.wiktionary.org/wiki/Template:quote-journal
+ -->
+<link rel="stylesheet" href="wiktionary-quote.css?v=1.0">
+</head>
+<body>
+
+<form id="frm1">
+  <fieldset>
+    <legend>Wiktionary journal, magazine or newspaper quotation builder</legend>
+  <p><label class="field" for="author">author: </label><input type="text" name="author"> The name of the author of the journal article quoted. Use either author, or last and first (for the first name, and middle names or initials), not both.
+  <p><label class="field" for="last">last: </label><input type="text" name="last"> The name of the author of the journal article quoted. Use either author, or last and first (for the first name, and middle names or initials), not both.
+  <p><label class="field" for="first">first: </label><input type="text" name="first"> The name of the author of the journal article quoted. Use either author, or last and first (for the first name, and middle names or initials), not both.
+  <p><label class="field" for="coauthors">coauthors: </label><input type="text" name="coauthors"> The names of the coauthor(s) of the journal article. Separate multiple names with semicolons.
+  <p><label class="field" for="editor">editor: </label><input type="text" name="editor"> The name of the editor of the journal.
+  <p><label class="field" for="editors">editors: </label><input type="text" name="editors"> The names of the editors of the journal. Separate multiple names with semicolons.
+  <p><label class="field" for="title">title: </label><input type="text" name="title"> <b>Mandatory</b>: the title of the journal article.
+  <p><label class="field" for="url">url: </label><input type="text" name="url"> The URL or web address of an external website containing the full text of the journal article. <i>Do not link to any website that has content in breach of copyright.</i>
+  <p><label class="field" for="archiveurl">archiveurl: </label><input type="text" name="archiveurl"> Use archiveurl and archivedate (which must be used together) to indicate the URL or web address of a webpage on a website such as the Internet Archive or Perma.cc at which the webpage has been archived, and the date on which the webpage was archived.
+  <p><label class="field" for="archivedate">archivedate: </label><input type="text" name="archivedate"> "
+  <p><label class="field" for="accessdate">accessdate: </label><input type="text" name="accessdate"> Alternatively, if the webpage cannot be archived, use accessdate to indicate when its URL was accessed. (If the webpage has been archived, it is unnecessary to use this parameter.)
+  <p><label class="field" for="journal">journal: </label><input type="text" name="journal"> The name of the journal. In addition to `journal` or `work`, `magazine`, `newspaper` or `periodical` can also be used.
+  <p><label class="field" for="work">work: </label><input type="text" name="work"> The name of the journal. In addition to `journal` or `work`, `magazine`, `newspaper` or `periodical` can also be used.
+  <p><label class="field" for="magazine">magazine: </label><input type="text" name="magazine"> The name of the journal. In addition to `journal` or `work`, `magazine`, `newspaper` or `periodical` can also be used.
+  <p><label class="field" for="newspaper">newspaper: </label><input type="text" name="newspaper"> The name of the journal. In addition to `journal` or `work`, `magazine`, `newspaper` or `periodical` can also be used.
+  <p><label class="field" for="periodical">periodical: </label><input type="text" name="periodical"> The name of the journal. In addition to `journal` or `work`, `magazine`, `newspaper` or `periodical` can also be used.
+  <p><label class="field" for="location">location: </label><input type="text" name="location"> The location where or, more specifically, the city in which the journal was published. If more than one location is stated, separate the locations with semicolons, like this: "London; New York, N.Y.".
+  <p><label class="field" for="publisher">publisher: </label><input type="text" name="publisher"> The name of one or more publishers of the journal article. If more than one publisher is stated, separate the names with semicolons.
+  <p><label class="field" for="date">date: </label><input type="text" name="date"> The date that the journal article was published. Use either date, or year (and month), not both.
+  <p><label class="field" for="year">year: </label><input type="text" name="year"> The year (and month), that the journal article was published. Use either date, or year (and month), not both.
+  <p><label class="field" for="month">month: </label><input type="text" name="month"> The year (and month), that the journal article was published. Use either date, or year (and month), not both.
+  <p><label class="field" for="volume">volume: </label><input type="text" name="volume"> The volume number of the journal. TODO: Use volume_plain if you wish to suppress the word volume appearing in front of the volume number and identify the volume in some other way (for example, "journal II").
+  <p><label class="field" for="page">page: </label><input type="text" name="page"> The page number or range of page numbers of the journal article. Use `page` to indicate a single page, and `pages` to indicate a range of pages. For example, "pages=1–2" will display "pages 1–2". Use an en dash to separate the page numbers in the range.
+  <p><label class="field" for="pages">pages: </label><input type="text" name="pages"> The page number or range of page numbers of the journal article. Use `page` to indicate a single page, and `pages` to indicate a range of pages. For example, "pages=1–2" will display "pages 1–2". Use an en dash to separate the page numbers in the range.
+  <p><label class="field" for="passage">passage: </label><input type="text" name="passage"> The portion of the journal article being quoted. The defined term will be highlighted in bold in the passage quoted like this: "'''humanities'''".
+  <p><label class="field" for="term">term: </label><input type="text" name="term"> The defined term to be highlighed in the passage.
+  </fieldset>
+</form>
+
+<p>Click "Build it" to display the quotation, then copy it, click the link and edit that page.</p>
+
+<button onclick="buildQuote('quote-journal')">Build it</button>
+
+<p id="error"></p>
+<p id="quotation"></p>
+<p id="linky"></p>
+
+<script src="jquery-1.11.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="wiktionary-quote.js"></script>
+<script>
+$(document).ready(function() {
+
+  // Prefill archivedate and accessdate as today
+  var date = new Date();
+  var day = date.getDate();
+  if(day<10){ day="0"+day;}
+  var month = date.getMonth()+1;
+  if(month<10){ month="0"+month;}
+  var today = date.getFullYear()+"-"+month+"-"+day;
+  $("input[name=archivedate]").val(today);
+  $("input[name=accessdate]").val(today);
+
+  $('#frm1').validate({
+    rules: {
+      author: {
+        AND_OR_with: [
+          $("input[name=author]"),
+          $("input[name=last]"),
+          $("input[name=first]"),
+          'Use either author, or last and first (for the first name, and middle names or initials), not both.'
+        ]
+      },
+      last: {
+        AND_OR_with: [
+          $("input[name=author]"),
+          $("input[name=last]"),
+          $("input[name=first]"),
+          'Use either author, or last and first (for the first name, and middle names or initials), not both.'
+        ]
+      },
+      first: {
+        AND_OR_with: [
+          $("input[name=author]"),
+          $("input[name=last]"),
+          $("input[name=first]"),
+          'Use either author, or last and first (for the first name, and middle names or initials), not both.'
+        ]
+      },
+      url: {
+        url: true
+      },
+      title: {
+        required: true
+      },
+      accessdate: {
+        AND_OR_with: [
+          $("input[name=accessdate]"),
+          $("input[name=archiveurl]"),
+          $("input[name=archivedate]"),
+          'Use archiveurl and archivedate, or if it cannot be archived use accessdate.'
+        ]
+      },
+      archiveurl: {
+        AND_OR_with: [
+          $("input[name=accessdate]"),
+          $("input[name=archiveurl]"),
+          $("input[name=archivedate]"),
+          'Use archiveurl and archivedate, or if it cannot be archived use accessdate.'
+        ]
+      },
+      archivedate: {
+        AND_OR_with: [
+          $("input[name=accessdate]"),
+          $("input[name=archiveurl]"),
+          $("input[name=archivedate]"),
+          'Use archiveurl and archivedate, or if it cannot be archived use accessdate.'
+        ]
+      },
+      date: {
+        date: true,
+        AND_with: [
+          $("input[name=year]"),
+         'Use either date, or year, not both.'
+        ]
+      },
+      year: {
+        digits: true,
+        minlength: 4,
+        maxlength: 4,
+        AND_with: [
+          $("input[name=date]"),
+          'Use either date, or year, not both.'
+        ]
+      }
+    }
+  });
+
+  $('#frm1').keyup(function() {
+    buildQuote('quote-journal');
+  });
+});
+</script>
+
+</body>
+</html>

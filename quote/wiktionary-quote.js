@@ -105,9 +105,9 @@ function buildQuote(type) {
 }
 
 function copyToClipboard(element) {
-  var $temp = $('<input>');
+  var $temp = $('<textarea>');
   $('body').append($temp);
-  $temp.val($(element).text()).select();
+  $temp.val($(element)[0].innerText).select();
   document.execCommand('copy');
   $temp.remove();
 }

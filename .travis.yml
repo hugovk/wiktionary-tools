@@ -11,6 +11,13 @@ python:
   - 2.7
   - 2.6
 
+# whitelist
+# gh-pages is otherwise ignored by Travis CI
+# Use a regex to whitelist gh-pages and all branches
+branches:
+  only:
+    - /.*/
+    
 sudo: false
 
 install:

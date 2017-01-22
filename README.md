@@ -1,5 +1,7 @@
 # wiktionary-tools
 
+[![Build Status](https://travis-ci.org/hugovk/wiktionary-tools.svg?branch=gh-pages)](https://travis-ci.org/hugovk/wiktionary-tools)
+
 Tools to do things with Wiktionary
 
 ## Quotation builder

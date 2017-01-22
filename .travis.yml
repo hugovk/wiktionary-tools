@@ -1,0 +1,25 @@
+language: python
+
+python:
+  - pypy3
+  - pypy
+  - 3.6
+  - 3.5
+  - 3.4
+  - 3.3
+  - 3.2
+  - 2.7
+  - 2.6
+
+sudo: false
+
+install:
+  - travis_retry pip install pyflakes pep8
+
+script:
+    # Static analysis
+  - pyflakes .
+  - pep8 --statistics --count .
+
+matrix:
+  fast_finish: true

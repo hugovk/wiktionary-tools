@@ -1,3 +1,9 @@
+window.onbeforeunload = e => {
+    var dialogText = 'Do you really want to leave this site?';
+    e.returnValue = dialogText;
+    return dialogText;
+};
+
 function AND_value_validator(value, el, args) {
     var otherValue = $(args[0]).val();
     return !(value && otherValue);

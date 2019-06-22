@@ -50,7 +50,7 @@ function preg_quote(str) {
 
 function buildQuote(type) {
 
-  var text = "#* {{" + type;
+  var text = "#* {{" + type + "<br>|en";
 
   error = "";
   if (valueOfName("author").length &&

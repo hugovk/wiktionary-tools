@@ -1,11 +1,14 @@
 language: python
+cache: pip
 
 python:
   - pypy3
-  - pypy
+  - nightly
+  - 3.10-dev
+  - 3.9-dev
+  - 3.8
+  - 3.7
   - 3.6
-  - 3.5
-  - 2.7
 
 # whitelist
 # gh-pages is otherwise ignored by Travis CI
@@ -16,12 +19,11 @@ branches:
     - /.*/
 
 install:
-  - travis_retry pip install pyflakes pycodestyle
+  - travis_retry pip install -U flake8
 
 script:
     # Static analysis
-  - pyflakes .
-  - pycodestyle --statistics --count .
+  - flake8 .
 
 matrix:
   fast_finish: true

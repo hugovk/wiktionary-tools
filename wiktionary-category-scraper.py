@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-# encoding: utf-8
 """
 Download lists of all the words from a Wiktionary category,
 for example https://en.wiktionary.org/wiki/Category:English_verbs
 """
-from __future__ import print_function
 import argparse
 from bs4 import BeautifulSoup  # pip install BeautifulSoup4
 import urllib2

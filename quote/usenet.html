@@ -30,7 +30,7 @@ https://en.wiktionary.org/wiki/Template:quote-newsgroup
 
 <p>Click "Build it" to display the quotation, then copy it, click the link and edit that page.</p>
 
-<button onclick="buildQuote('quote-newsgroup|lang=en')">Build it</button>
+<button onclick="buildQuote('quote-newsgroup|1=en')">Build it</button>
 <button onclick="copyToClipboard('#quotation')">Copy</button>
 
 <p id="error"></p>
@@ -104,7 +104,7 @@ $(document).ready(function() {
   });
 
   $('#frm1').keyup(function() {
-    buildQuote('quote-newsgroup|lang=en');
+    buildQuote('quote-newsgroup|1=en');
   });
 });
 </script>

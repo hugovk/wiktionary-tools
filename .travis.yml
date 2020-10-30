@@ -5,7 +5,7 @@ python:
   - pypy3
   - nightly
   - 3.10-dev
-  - 3.9-dev
+  - 3.9
   - 3.8
   - 3.7
   - 3.6

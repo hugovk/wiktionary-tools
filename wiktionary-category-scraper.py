@@ -4,8 +4,9 @@ Download lists of all the words from a Wiktionary category,
 for example https://en.wiktionary.org/wiki/Category:English_verbs
 """
 import argparse
-from bs4 import BeautifulSoup  # pip install BeautifulSoup4
+
 import urllib2
+from bs4 import BeautifulSoup  # pip install BeautifulSoup4
 from urlparse import urljoin  # Python 2
 
 # from pprint import pprint
@@ -26,14 +27,14 @@ def download_page_of_words(url):
     for cat in cats:
         lis = cat.find_all("li")
         for li in lis:
-            print(li.text.encode('utf-8'))
+            print(li.text.encode("utf-8"))
 
     # Find next page
     try:
         next_link = soup.find_all("a", href=True, text="next page")[0]
     except IndexError:
         return False
-    href = next_link['href']
+    href = next_link["href"]
     if not href.startswith("http"):
         href = urljoin(url, href)
 
@@ -43,17 +44,19 @@ def download_page_of_words(url):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Download words from a Wiktionary category",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        '-s', '--start_url',
-        default='https://en.wiktionary.org/wiki/'
-                'Category:English_transitive_verbs',
-        help="URL of first page of words to start scraping from")
+        "-s",
+        "--start_url",
+        default="https://en.wiktionary.org/wiki/Category:English_transitive_verbs",
+        help="URL of first page of words to start scraping from",
+    )
     args = parser.parse_args()
 
     next_url = args.start_url
     # print("Start:", next_url)
-    while(True):
+    while True:
         next_url = download_page_of_words(next_url)
         # print("Next:", next_url)
 

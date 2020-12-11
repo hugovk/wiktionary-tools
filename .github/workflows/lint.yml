@@ -1,0 +1,17 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Monthly, chosen randomly to avoid peak times
+    - cron:  '6 3 12 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: pre-commit/action@v2.0.0

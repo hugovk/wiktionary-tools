@@ -1,7 +1,8 @@
 # wiktionary-tools
 
-[![Build Status](https://travis-ci.org/hugovk/wiktionary-tools.svg?branch=gh-pages)](https://travis-ci.org/hugovk/wiktionary-tools)
+[![GitHub Actions status](https://github.com/hugovk/wiktionary-tools/workflows/Lint/badge.svg)](https://github.com/hugovk/wiktionary-tools/actions)
 [![Python: 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tools to do things with Wiktionary
 

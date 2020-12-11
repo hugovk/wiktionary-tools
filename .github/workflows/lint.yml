@@ -1,6 +1,11 @@
 name: Lint
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    # Monthly, chosen randomly to avoid peak times
+    - cron:  '6 3 12 * *'
 
 jobs:
   build:

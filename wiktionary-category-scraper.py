@@ -3,6 +3,8 @@
 Download lists of all the words from a Wiktionary category,
 for example https://en.wiktionary.org/wiki/Category:English_verbs
 """
+from __future__ import annotations
+
 import argparse
 
 import urllib2
